@@ -1,3 +1,10 @@
+/**
+ * Orginal source code
+ * http://bl.ocks.org/NPashaP/9999786
+ * author: Madhu Rakhal Magar
+ * rakhal.madhu@gmail.com
+ * MIT License
+ */
 !function(){
 	var gradPie={};
 	var pie = d3.layout.pie().sort(null).value(function(d) {return d.value;});
@@ -31,30 +38,25 @@
 			.enter().append("path").attr("fill", function(d,i){ return "url(#gradient"+ i+")";})
 			.attr("d", d3.svg.arc().outerRadius(r))
 			.each(function(d) { this._current = d; })
-			.on("mouseover",function(){
-			    var target=d3.select(this);
-			    var d=target.datum();
-			    var dgre=(d.endAngle-d.startAngle)/2+d.startAngle;
-					var dis=5; //distance
+			.on("mouseover", function() {
+					var target = d3.select(this);
+					var d = target.datum();
+					var dgre = (d.endAngle-d.startAngle) / 2 + d.startAngle;
+					var dis = 5;
+					var x = d3.round(Math.sin(dgre),15) * dis;
+					var y = -d3.round(Math.cos(dgre),15) * dis;
 
-			      var x=d3.round(Math.sin(dgre),15)*dis;
-			      var y=-d3.round(Math.cos(dgre),15)*dis;
-			        target
-			        .transition()
-			        .duration(700)
-			        .attr("transform", "translate("+(x)+", "+(y)+")")
-			        .ease("bounce") ;
-			      // console.log("x:"+x+" y:"+y);
-			  }).on("mouseout",function(){
+					target
+						.transition()
+						.duration(500)
+						.attr("transform", "translate("+(x)+", "+(y)+")")
+						.ease("bounce");
+			  }).on("mouseout", function() {
 			     d3.select(this)
 			     .transition()
 			        .duration(400)
 			        .attr("transform", "translate("+(0)+", "+(0)+")") ;
-				//back center
 			  });
-
-
-
 	}
 
 	gradPie.transition = function(id, data, r) {
