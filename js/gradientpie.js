@@ -28,6 +28,7 @@
 	}
 
 	gradPie.draw = function(id, data, cx, cy, r){
+		var total = data.map(function(d) {return d.value }).reduce(function(prev, next) { return prev + next }, 0);
 
 		var gPie = d3.select("#"+id).append("g")
 			.attr("transform", "translate(" + cx + "," + cy + ")");
@@ -39,7 +40,9 @@
 			.append("g")
 			.append("path").attr("fill", function(d,i){ return "url(#gradient"+ i+")";})
 			.attr("d", d3.svg.arc().outerRadius(r))
-			.each(function(d) { this._current = d; })
+			.each(function(d) {
+				this._current = d;
+			})
 			.on("mouseover", function() {
 					var target = d3.select(this);
 					var d = target.datum();
@@ -63,7 +66,8 @@
 			gPie.selectAll('g')
 				.append("text")
 				.text(function(d) {
-					return '12%';
+					var val = d.value / total;
+					return Math.floor(val * 100) + '%';
 				})
 				.attr('transform', function(d) {
 					var ang = (d.endAngle  + d.startAngle) / 2;
