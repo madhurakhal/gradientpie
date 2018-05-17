@@ -86,13 +86,11 @@
 					var ang = (d.endAngle  + d.startAngle) / 2;
 					var dis = r;
 					var x = d3.round(Math.sin(ang),15) * dis;
-					var y = -d3.round(Math.cos(ang),15) * dis;
 					return x;
 				})
 				.attr('y1', function(d) {
 					var ang = (d.endAngle  + d.startAngle) / 2;
 					var dis = r;
-					var x = d3.round(Math.sin(ang),15) * dis;
 					var y = -d3.round(Math.cos(ang),15) * dis;
 					return y;
 				})
@@ -100,28 +98,14 @@
 					var ang = (d.endAngle  + d.startAngle) / 2;
 					var dis = r + 30;
 					var x = d3.round(Math.sin(ang),15) * dis;
-					var y = -d3.round(Math.cos(ang),15) * dis;
 					return x;
 				})
 				.attr('y2', function(d) {
 					var ang = (d.endAngle  + d.startAngle) / 2;
 					var dis = r + 30;
-					var x = d3.round(Math.sin(ang),15) * dis;
 					var y = -d3.round(Math.cos(ang),15) * dis;
 					return y;
 				})
 	}
-
-	gradPie.transition = function(id, data, r) {
-		function arcTween(a) {
-		  var i = d3.interpolate(this._current, a);
-		  this._current = i(0);
-		  return function(t) { return d3.svg.arc().outerRadius(r)(i(t));  };
-		}
-
-		d3.select("#"+id).selectAll("path").data(pie(data))
-			.transition().duration(750).attrTween("d", arcTween);
-	}
-
 	this.gradPie = gradPie;
 }();
