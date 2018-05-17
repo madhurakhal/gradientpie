@@ -35,7 +35,9 @@
 		createGradients(gPie.append("defs"), data.map(function(d){ return d.color; }), 2.5*r);
 
 		gPie.selectAll("path").data(pie(data))
-			.enter().append("path").attr("fill", function(d,i){ return "url(#gradient"+ i+")";})
+			.enter()
+			.append("g")
+			.append("path").attr("fill", function(d,i){ return "url(#gradient"+ i+")";})
 			.attr("d", d3.svg.arc().outerRadius(r))
 			.each(function(d) { this._current = d; })
 			.on("mouseover", function() {
@@ -57,6 +59,53 @@
 			        .duration(400)
 			        .attr("transform", "translate("+(0)+", "+(0)+")") ;
 			  });
+
+			gPie.selectAll('g')
+				.append("text")
+				.text(function(d) {
+					return '12%';
+				})
+				.attr('transform', function(d) {
+					var ang = (d.endAngle  + d.startAngle) / 2;
+					var dis = 40 + r;
+					var x = d3.round(Math.sin(ang),15) * dis;
+					var y = -d3.round(Math.cos(ang),15) * dis;
+					return 'translate(' +  x + ',' +  y  + ')'
+				})
+			gPie.selectAll('g')
+				.append('line')
+				.attr('stroke', function(d) {
+					return d.data.color;
+				})
+				.attr('stroke-width', 1)
+				.attr('x1', function(d) {
+					var ang = (d.endAngle  + d.startAngle) / 2;
+					var dis = r;
+					var x = d3.round(Math.sin(ang),15) * dis;
+					var y = -d3.round(Math.cos(ang),15) * dis;
+					return x;
+				})
+				.attr('y1', function(d) {
+					var ang = (d.endAngle  + d.startAngle) / 2;
+					var dis = r;
+					var x = d3.round(Math.sin(ang),15) * dis;
+					var y = -d3.round(Math.cos(ang),15) * dis;
+					return y;
+				})
+				.attr('x2', function(d) {
+					var ang = (d.endAngle  + d.startAngle) / 2;
+					var dis = r + 30;
+					var x = d3.round(Math.sin(ang),15) * dis;
+					var y = -d3.round(Math.cos(ang),15) * dis;
+					return x;
+				})
+				.attr('y2', function(d) {
+					var ang = (d.endAngle  + d.startAngle) / 2;
+					var dis = r + 30;
+					var x = d3.round(Math.sin(ang),15) * dis;
+					var y = -d3.round(Math.cos(ang),15) * dis;
+					return y;
+				})
 	}
 
 	gradPie.transition = function(id, data, r) {
